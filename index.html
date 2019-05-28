@@ -3,13 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        .red{color: red}
-        .blue{color: chocolate}
-    </style>
 </head>
 <body>
-    <script src="app.js">
-    </script>
+<div id="output" class="oput">Nothing</div>
+<button type="button" id="myBtn">Get Data</button>
+
+<script>
+    let myContainer = "";
+    document.getElementById("myBtn").addEventListener('click', myFun);
+    function myFun() {
+        let a = new XMLHttpRequest();
+        a.open("GET", "https://api.myjson.com/bins/75moo", true);
+        a.onreadystatechange = function () {
+            if(a.readyState === 4 && a.status === 200) {
+                let obj = JSON.parse(this.responseText);
+                console.log(obj);
+                for (let i = 0; i < obj.length; i++) {
+                    myContainer += obj[i].name.first + " " + obj[i].name.last + "<br>";
+                }
+                console.log(myContainer);
+                document.getElementById("output").innerHTML = myContainer;
+            }
+
+        };
+        a.send();
+    }
+</script>
 </body>
 </html>
